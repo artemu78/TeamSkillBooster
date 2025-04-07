@@ -1,7 +1,6 @@
 import React from "react";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
-import ProgressTracker from "@/components/ProgressTracker";
 import ModulesSection from "@/components/ModulesSection";
 import PersonalityQuiz from "@/components/PersonalityQuiz";
 import ReflectionSection from "@/components/ReflectionSection";
@@ -12,11 +11,14 @@ const Home: React.FC = () => {
   return (
     <>
       <Header />
-      <main className="flex-grow">
+      <main className="flex-grow bg-gradient-to-b from-gray-50 to-white">
         <Hero />
-        <ProgressTracker />
+        {/* ProgressTracker component removed from here since it's now part of the header */}
+        <div className="wave-divider"></div>
         <ModulesSection />
+        <div className="divider-dots"></div>
         <PersonalityQuiz />
+        <div className="divider-dots"></div>
         <ReflectionSection />
         <CallToAction />
       </main>

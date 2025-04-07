@@ -1,0 +1,96 @@
+You are improving a single-page learning web app titled “How to Be a Valuable Team Member.”
+
+Your task is to replace placeholder text in the 3 learning modules with real content from the course “Teamwork Essentials: Stand Out as a Valuable Team Member” (PDF source).
+Keep the layout clean, modern, and mobile-friendly.
+
+✅ Instructions:
+
+Keep the page layout unchanged (hero, modules, progress, reflection)
+
+Split long paragraphs into digestible blocks
+
+Use subheadings, quotes, bulleted tips, and callout boxes where needed
+
+Add simple illustrations or icons where helpful (use placeholders if necessary)
+
+Maintain or enhance interactivity (quizzes, reflection, progress)
+
+✅ Here is the module content with real text:
+
+📘 Module 1: Know Your Team Style
+Introduction:
+“Understanding your communication style helps you work more effectively with others. Everyone brings unique strengths to a team.”
+
+The 4 Team Member Types:
+
+Goal-Driven: Action-oriented and likes to get things done.
+
+Task-Driven: Organized, detailed, and values planning.
+
+Vision-Driven: Creative, big-picture thinkers.
+
+People-Driven: Supportive, loyal, and harmony-focused.
+
+Prompt:
+“What’s your natural tendency when working in a group — getting things done, keeping order, dreaming big, or keeping the peace?”
+
+✅ Add a 4-question quiz to determine style. After completion, show feedback with:
+
+Style type
+
+2 strengths
+
+1 growth suggestion
+
+🧠 Module 2: Listen, Connect, Collaborate
+Heading: “Great teams start with great listening.”
+
+Key Points (display as cards or callouts):
+
+“Active listening” means giving your full attention — not just waiting to speak.
+
+Tailor your communication to others’ needs and context.
+
+Ask clarifying questions like “What I’m hearing is...” or “Can you tell me more?”
+
+Value different perspectives — even if you disagree.
+
+Mini Scenario Question:
+“Your teammate seems upset in a meeting. What do you do?”
+Options:
+
+A) Ask them what’s wrong in front of everyone
+
+B) Talk to them privately after
+
+C) Ignore it
+✅ Correct answer: B
+
+Interactive Prompt:
+Add a reflection field: “Describe a time when better listening could’ve changed the outcome.”
+
+🤝 Module 3: Trust, Conflict & Feedback
+Quote:
+“Trust is the glue of life. It’s the foundational principle that holds all relationships.” – Stephen Covey
+
+Key Ideas:
+
+Trust is built by being consistent, honest, and showing up.
+
+Conflict can be healthy — it depends on how you handle it.
+
+Avoid blame; focus on actions and behaviors.
+
+Give feedback that’s specific, timely, and constructive.
+
+Receive feedback without being defensive.
+
+Interactive Idea:
+Add a drag-and-drop with these actions:
+
+Builds Trust: Meeting deadlines, being honest, giving credit
+
+Breaks Trust: Blaming, withholding info, gossiping
+
+Reflection Prompt:
+“What’s one thing you can do this week to build more trust?”
