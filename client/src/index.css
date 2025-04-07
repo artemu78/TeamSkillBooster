@@ -2,6 +2,55 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Game Board Animations */
+@keyframes bouncePulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.game-player {
+  animation: bouncePulse 1.5s ease-in-out infinite;
+}
+
+.game-finish {
+  background: linear-gradient(45deg, #e9d5ff 0%, #c4b5fd 25%, #a78bfa 50%, #c4b5fd 75%, #e9d5ff 100%);
+  background-size: 200% auto;
+  animation: shimmer 3s linear infinite;
+}
+
+.snake-path {
+  position: relative;
+}
+
+.snake-path::before {
+  content: "🐍";
+  position: absolute;
+  font-size: 18px;
+  transform: rotate(45deg);
+  z-index: 10;
+}
+
+.ladder-path {
+  position: relative;
+}
+
+.ladder-path::before {
+  content: "🪜";
+  position: absolute;
+  font-size: 18px;
+  transform: rotate(-45deg);
+  z-index: 10;
+}
+
 @layer base {
   * {
     @apply border-border;
