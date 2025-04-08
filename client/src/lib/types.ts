@@ -2,6 +2,15 @@ export interface Module {
   id: number;
   title: string;
   summary: string;
+  content: {
+    text: string[];
+    media: Array<{
+      type: string;
+      src: string;
+      alt?: string;
+      title?: string;
+    }>;
+  };
   interactiveElement: {
     title: string;
     description: string;
