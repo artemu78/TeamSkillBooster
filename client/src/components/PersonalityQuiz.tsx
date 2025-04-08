@@ -45,53 +45,111 @@ const PersonalityQuiz: React.FC = () => {
 
           {!isQuizComplete ? (
             <div className="space-y-10">
-              {quizQuestions.map((question) => (
+              {quizQuestions.map((question, qIndex) => (
                 <div key={question.id} className="quiz-question">
-                  <h3 className="text-xl font-semibold mb-4">{question.text}</h3>
+                  <div className="flex items-center mb-5">
+                    <div className="bg-gradient-to-r from-primary-500 to-indigo-500 text-white h-8 w-8 rounded-full flex items-center justify-center flex-shrink-0 mr-3 shadow-md">
+                      <span className="font-bold">{qIndex + 1}</span>
+                    </div>
+                    <h3 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary to-indigo-600">
+                      {question.text}
+                    </h3>
+                  </div>
                   <RadioGroup
                     value={quizAnswers[question.id] || ""}
                     onValueChange={(value) => setQuizAnswer(question.id, value)}
                     className="space-y-3"
                   >
-                    {question.options.map((option) => (
-                      <div
-                        key={option.value}
-                        className={`flex items-start p-4 border ${
-                          quizAnswers[question.id] === option.value
-                            ? "border-2 border-primary bg-primary/5"
-                            : "border-gray-200 hover:bg-gray-50"
-                        } rounded-lg cursor-pointer transition`}
-                      >
-                        <RadioGroupItem
-                          value={option.value}
-                          id={`q${question.id}-${option.value}`}
-                          className="mt-1 mr-3"
-                        />
-                        <div>
-                          <Label
-                            htmlFor={`q${question.id}-${option.value}`}
-                            className="font-medium block mb-1"
-                          >
-                            {option.label}
-                          </Label>
-                          <span className="text-sm text-gray-600">
-                            {option.description}
-                          </span>
+                    {question.options.map((option) => {
+                      const optionId = `q${question.id}-${option.value}`;
+                      const isSelected = quizAnswers[question.id] === option.value;
+                      
+                      return (
+                        <div
+                          key={option.value}
+                          className={`p-4 border ${
+                            isSelected
+                              ? "border-2 border-primary bg-primary/5"
+                              : "border-gray-200 hover:bg-gray-50 hover:shadow-md"
+                          } rounded-lg cursor-pointer transition-all duration-200 relative group ${
+                            isSelected ? "animate-[quizPop_0.3s_ease_forwards]" : ""
+                          }`}
+                          onClick={() => setQuizAnswer(question.id, option.value)}
+                          style={{ transformOrigin: 'center' }}
+                        >
+                          {/* Hide the actual radio button but keep it for accessibility */}
+                          <div className="absolute opacity-0">
+                            <RadioGroupItem
+                              value={option.value}
+                              id={optionId}
+                            />
+                          </div>
+                          
+                          {/* Custom radio button indicator */}
+                          <div className="flex items-start">
+                            <div className={`w-5 h-5 rounded-full border-2 flex-shrink-0 mt-1 mr-3 
+                              ${isSelected 
+                                ? 'border-primary bg-primary/10' 
+                                : 'border-gray-300 group-hover:border-gray-400 bg-white'}`}>
+                              {isSelected && (
+                                <div className="w-3 h-3 rounded-full bg-primary m-auto animate-[radioCheck_0.25s_cubic-bezier(0.175,0.885,0.32,1.275)_forwards]"></div>
+                              )}
+                            </div>
+                            
+                            <div className="flex-1">
+                              <Label
+                                htmlFor={optionId}
+                                className="font-medium block mb-1 cursor-pointer"
+                              >
+                                {option.label}
+                              </Label>
+                              <span className="text-sm text-gray-600 block">
+                                {option.description}
+                              </span>
+                            </div>
+                          </div>
+                          
+                          {/* Focus/Active state indicator for keyboard users */}
+                          <div className={`absolute inset-0 rounded-lg pointer-events-none
+                            ${isSelected ? 'ring-0' : 'ring-0 group-hover:ring-2 group-hover:ring-primary/20'}`}></div>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </RadioGroup>
                 </div>
               ))}
 
-              <div className="mt-8 text-center">
-                <Button
-                  onClick={handleSubmitQuiz}
-                  disabled={!allQuestionsAnswered}
-                  className="bg-primary text-white font-medium py-3 px-8 rounded-lg hover:bg-primary/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  Get Your Results
-                </Button>
+              <div className="mt-12 text-center">
+                <div className="relative inline-block">
+                  {/* Game-style button */}
+                  <Button
+                    onClick={handleSubmitQuiz}
+                    disabled={!allQuestionsAnswered}
+                    className={`bg-gradient-to-r from-primary to-indigo-600 text-white font-medium py-4 px-10 rounded-lg 
+                      shadow-lg hover:shadow-xl transition-all duration-300 
+                      ${!allQuestionsAnswered 
+                        ? "opacity-50 cursor-not-allowed" 
+                        : "hover:translate-y-[-2px] active:translate-y-[1px]"}`}
+                  >
+                    <span className="flex items-center">
+                      <span className="mr-2">🏆</span>
+                      Get Your Results!
+                    </span>
+                  </Button>
+                  
+                  {/* Progress indicator */}
+                  <div className="absolute -bottom-6 left-0 right-0 text-center">
+                    <span className="text-xs text-gray-500">
+                      {Object.keys(quizAnswers).length} of {quizQuestions.length} questions answered
+                    </span>
+                    <div className="h-1 bg-gray-200 rounded-full mt-1 mx-auto max-w-[180px]">
+                      <div 
+                        className="h-full rounded-full bg-gradient-to-r from-primary/70 to-indigo-400/70"
+                        style={{ width: `${(Object.keys(quizAnswers).length / quizQuestions.length) * 100}%` }}
+                      ></div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           ) : (
