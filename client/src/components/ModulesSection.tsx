@@ -48,9 +48,7 @@ const ModulesSection: React.FC = () => {
     }
   };
 
-  // Chunk the modules into two rows for the progress display
-  const firstRowModules = modules.slice(0, 5);
-  const secondRowModules = modules.slice(5, 10);
+  // No longer chunking modules for progress display since it was removed
 
   return (
     <section id="modules" className="py-12 bg-white">
@@ -58,92 +56,9 @@ const ModulesSection: React.FC = () => {
         <h2 className="text-2xl md:text-3xl font-bold text-center mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
           Your Teamwork Skills Journey
         </h2>
-        <p className="text-center text-gray-600 mb-6 max-w-2xl mx-auto">
+        <p className="text-center text-gray-600 mb-10 max-w-2xl mx-auto">
           Master essential teamwork skills through 10 interactive learning modules. Complete each module to level up your collaboration abilities!
         </p>
-
-        {/* Two-row Progress Bar */}
-        <div className="mb-12 max-w-4xl mx-auto">
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
-            <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4 flex items-center">
-              <span className="w-5 h-5 bg-indigo-100 rounded-full flex items-center justify-center mr-2">
-                <span className="text-xs">🎯</span>
-              </span>
-              Your Progress Tracker
-            </h3>
-            
-            {/* First Row */}
-            <div className="relative mb-6">
-              <div className="absolute h-2 bg-gray-200 left-3 right-3 top-4 rounded-full z-0"></div>
-              <div 
-                className="absolute h-2 bg-gradient-to-r from-indigo-500 to-purple-500 left-3 top-4 rounded-full z-10"
-                style={{ 
-                  width: `${Math.min(100, (Object.values(progress.modules).filter((val, idx) => val && idx < 5).length / 5) * 100)}%`,
-                  transition: 'width 1s ease'
-                }}
-              ></div>
-              <div className="flex justify-between relative z-20">
-                {firstRowModules.map((module, index) => {
-                  const isCompleted = progress.modules[module.id];
-                  return (
-                    <div key={`tracker-${module.id}`} className="flex flex-col items-center">
-                      <div 
-                        className={`w-10 h-10 rounded-full flex items-center justify-center 
-                          ${isCompleted 
-                            ? 'bg-indigo-500 text-white border-2 border-indigo-300' 
-                            : 'bg-white border-2 border-gray-300'
-                          } shadow-sm transition-all hover:scale-110`}
-                      >
-                        <span className="text-sm font-bold">{module.id}</span>
-                      </div>
-                      <div className="mt-1 text-[10px] text-center w-14 truncate" title={module.title}>
-                        {module.title.split(':')[0]}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-            
-            {/* Second Row */}
-            <div className="relative">
-              <div className="absolute h-2 bg-gray-200 left-3 right-3 top-4 rounded-full z-0"></div>
-              <div 
-                className="absolute h-2 bg-gradient-to-r from-indigo-500 to-purple-500 left-3 top-4 rounded-full z-10"
-                style={{ 
-                  width: `${Math.min(100, (Object.values(progress.modules).filter((val, idx) => val && idx >= 5).length / 5) * 100)}%`,
-                  transition: 'width 1s ease'
-                }}
-              ></div>
-              <div className="flex justify-between relative z-20">
-                {secondRowModules.map((module, index) => {
-                  const isCompleted = progress.modules[module.id];
-                  return (
-                    <div key={`tracker-${module.id}`} className="flex flex-col items-center">
-                      <div 
-                        className={`w-10 h-10 rounded-full flex items-center justify-center 
-                          ${isCompleted 
-                            ? 'bg-indigo-500 text-white border-2 border-indigo-300' 
-                            : 'bg-white border-2 border-gray-300'
-                          } shadow-sm transition-all hover:scale-110`}
-                      >
-                        <span className="text-sm font-bold">{module.id}</span>
-                      </div>
-                      <div className="mt-1 text-[10px] text-center w-14 truncate" title={module.title}>
-                        {module.title.split(':')[0]}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-            
-            {/* Overall progress */}
-            <div className="mt-8 text-center text-sm text-gray-500">
-              <span className="font-semibold text-indigo-600">{Object.values(progress.modules).filter(Boolean).length}</span> of <span className="font-semibold text-indigo-600">{modules.length}</span> modules completed
-            </div>
-          </div>
-        </div>
 
         {/* Modules as collapsible rows */}
         <div className="flex flex-col gap-4 max-w-4xl mx-auto">
