@@ -51,6 +51,26 @@ const ModulesSection: React.FC = () => {
     setSelectedSubmodule({ moduleId, submoduleIndex });
   };
 
+  const handleCompleteSubmodule = (
+    moduleId: number,
+    submoduleIndex: number
+  ) => {
+    const module = modules.find((mod) => mod.id === moduleId);
+    if (module) {
+      const submodule = module.submodules[submoduleIndex];
+      if (submodule) {
+        submodule.completed = true;
+        // Check if all submodules are completed
+        const allSubmodulesCompleted = module.submodules.every(
+          (sub) => sub.completed
+        );
+        if (allSubmodulesCompleted) {
+          handleCompleteModule(moduleId);
+        }
+      }
+    }
+  };
+
   return (
     <section id="modules" className="py-12 bg-white">
       <div className="container mx-auto px-4">
@@ -83,6 +103,7 @@ const ModulesSection: React.FC = () => {
             return (
               <Card
                 key={module.id}
+                id={`module${module.id}`}
                 className={`overflow-hidden border transition-all hover:shadow-md ${
                   isCompleted ? "border-green-200" : "border-gray-200"
                 } animate-[slideIn_0.5s_ease_forwards] opacity-0`}
@@ -176,7 +197,7 @@ const ModulesSection: React.FC = () => {
 
                   {/* Module Content - Visible when expanded */}
                   {isExpanded && (
-                    <div className="p-5 bg-white border-t border-gray-100 grid md:grid-cols-2 gap-6">
+                    <div className="p-5 bg-white border-t border-gray-100 grid md:grid-cols-[33%_67%] gap-6">
                       {/* Submodule List */}
                       <div>
                         <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3 ">
@@ -186,7 +207,7 @@ const ModulesSection: React.FC = () => {
                           {module.submodules.map((submodule, index) => (
                             <div
                               key={index}
-                              className={`p-3 bg-gray-50 rounded-lg border border-gray-100 flex items-center gap-3 hover:bg-gray-100 transition-colors cursor-pointer ${
+                              className={`flex-col p-3 bg-gray-50 rounded-lg border border-gray-100 flex gap-3 hover:bg-gray-100 transition-colors cursor-pointer ${
                                 selectedSubmodule?.moduleId === module.id &&
                                 selectedSubmodule?.submoduleIndex === index
                                   ? "bg-indigo-100 border-indigo-200"
@@ -196,14 +217,26 @@ const ModulesSection: React.FC = () => {
                                 handleSubmoduleClick(module.id, index)
                               }
                             >
-                              <div className="w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center">
-                                <FileIcon className="h-4 w-4" />
-                              </div>
-                              <div className="flex-1">
-                                <p className="text-sm font-medium text-gray-700">
+                              <div className="gap-3 flex flex-1">
+                                {submodule.completed && (
+                                  <CheckCircle className="h-7 w-7 text-green-500" />
+                                )}
+                                <p className="text-sm font-medium text-gray-700 flex items-center gap-2">
                                   {submodule.title}
                                 </p>
                               </div>
+                              {!submodule.completed && (
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  className="ml-2"
+                                  onClick={() =>
+                                    handleCompleteSubmodule(module.id, index)
+                                  }
+                                >
+                                  Complete
+                                </Button>
+                              )}
                             </div>
                           ))}
                         </div>
@@ -215,14 +248,15 @@ const ModulesSection: React.FC = () => {
                           <h4 className="text-lg font-semibold text-gray-800 mb-2">
                             {selectedSubmoduleTitle}
                           </h4>
-                          <div dangerouslySetInnerHTML={{
+                          <div
+                            dangerouslySetInnerHTML={{
                               __html: selectedSubmoduleContent
                                 ? selectedSubmoduleContent
                                 : "",
                             }}
                           />
                         </div>
-                      ) }
+                      )}
                     </div>
                   )}
                 </CardContent>

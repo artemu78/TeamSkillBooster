@@ -170,7 +170,13 @@ const Header: React.FC = () => {
             {/* Interactive game path */}
             <div className="grid grid-cols-5 gap-4 md:grid-cols-10">
               {gamePath.map((station, index) => (
-                <div key={station.id} className="relative">
+                <div
+                  key={station.id}
+                  className="flex flex-col items-center hover:cursor-pointer hover:scale-125 transition-transform duration-200"
+                  onClick={() =>
+                    station.id ? handleNavigation(station.id) : null
+                  }
+                >
                   {/* Station circle */}
                   <div
                     className={`
@@ -186,11 +192,6 @@ const Header: React.FC = () => {
                           : ""
                       }
                     `}
-                    onClick={() =>
-                      station.sectionId
-                        ? handleNavigation(station.sectionId)
-                        : null
-                    }
                     title={station.label}
                   >
                     <span className="text-sm">{station.emoji}</span>

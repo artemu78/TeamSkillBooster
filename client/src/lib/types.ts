@@ -5,6 +5,7 @@ export interface Module {
   submodules: Array<{
     title: string;
     content: string;
+    completed: boolean;
   }>;
   interactiveElement?: {
     title: string;

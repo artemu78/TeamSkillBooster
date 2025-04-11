@@ -37,18 +37,22 @@ const defaultReflection: Reflection = {
 
 const CourseContext = createContext<CourseContextType | undefined>(undefined);
 
-export const CourseProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const CourseProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   // Initialize state from localStorage if available
-  const [progress, setProgress] = useState<CourseContextType["progress"]>(() => {
-    const saved = localStorage.getItem("courseProgress");
-    return saved
-      ? JSON.parse(saved)
-      : {
-          modules: { 1: false, 2: false, 3: false, 4: false },
-          quiz: false,
-          reflection: false,
-        };
-  });
+  const [progress, setProgress] = useState<CourseContextType["progress"]>(
+    () => {
+      const saved = localStorage.getItem("courseProgress");
+      return saved
+        ? JSON.parse(saved)
+        : {
+            modules: { 1: false, 2: false, 3: false, 4: false },
+            quiz: false,
+            reflection: false,
+          };
+    }
+  );
 
   const [quizAnswers, setQuizAnswers] = useState<QuizAnswer>(() => {
     const saved = localStorage.getItem("quizAnswers");
@@ -149,16 +153,29 @@ export const CourseProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   };
 
   const calculateProgress = (): number => {
-    const completedModules = Object.values(progress.modules).filter(Boolean).length;
-    const completedItems = completedModules + (progress.quiz ? 1 : 0) + (progress.reflection ? 1 : 0);
+    const completedModules = Object.values(progress.modules).filter(
+      Boolean
+    ).length;
+    const completedItems =
+      completedModules +
+      (progress.quiz ? 1 : 0) +
+      (progress.reflection ? 1 : 0);
     const totalItems = Object.keys(progress.modules).length + 2; // +2 for quiz and reflection
     return Math.round((completedItems / totalItems) * 100);
   };
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
+    const header = document.querySelector("header"); // Select the sticky header
+
     if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+      const headerHeight = header ? header.offsetHeight : 0; // Get the header height
+      const elementPosition = element.offsetTop - headerHeight; // Adjust for sticky header
+
+      window.scrollTo({
+        top: elementPosition,
+        behavior: "smooth",
+      });
     }
   };
 
