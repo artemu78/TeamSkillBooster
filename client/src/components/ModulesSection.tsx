@@ -20,22 +20,16 @@ const ModulesSection: React.FC = () => {
     }));
   };
 
-  // Module background colors - 10 gradient variations for the 10 modules
+  // Module background colors - 4 gradient variations for the 4 modules
   const moduleColors = [
     "from-blue-50 to-cyan-50",
     "from-cyan-50 to-teal-50",
-    "from-teal-50 to-emerald-50",
-    "from-emerald-50 to-green-50",
-    "from-indigo-50 to-blue-50",
     "from-violet-50 to-indigo-50",
-    "from-purple-50 to-violet-50",
-    "from-fuchsia-50 to-purple-50",
-    "from-rose-50 to-pink-50",
     "from-amber-50 to-yellow-50"
   ];
 
-  // Module icons - 10 emoji variations
-  const moduleIcons = ["🔍", "👥", "🤝", "🔒", "🛡️", "🧩", "💬", "💪", "🧠", "⚡"];
+  // Module icons - 4 emoji variations
+  const moduleIcons = ["🔍", "🤝", "🧩", "🧠"];
 
   // Get media icon based on media type
   const getMediaIcon = (type: string) => {
@@ -57,7 +51,7 @@ const ModulesSection: React.FC = () => {
           Your Teamwork Skills Journey
         </h2>
         <p className="text-center text-gray-600 mb-10 max-w-2xl mx-auto">
-          Master essential teamwork skills through 10 interactive learning modules. Complete each module to level up your collaboration abilities!
+          Master essential teamwork skills through 4 comprehensive learning modules. Each module covers a key area of teamwork excellence to level up your collaboration abilities!
         </p>
 
         {/* Modules as collapsible rows */}

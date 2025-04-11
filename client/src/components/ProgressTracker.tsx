@@ -15,31 +15,23 @@ const ProgressTracker: React.FC = () => {
   // Define board elements
   const boardSpaces = [
     { id: 0, label: "Start", type: "start" },
-    { id: 1, label: "Self-Awareness", type: "module", target: "modules" },
-    { id: 2, label: "Empathy", type: "module", target: "modules" },
-    { id: 3, label: "Communication", type: "module", target: "modules" },
-    { id: 4, label: "Trust Building", type: "module", target: "modules" },
-    { id: 5, label: "Reliability", type: "module", target: "modules" },
-    { id: 6, label: "Conflict Resolution", type: "module", target: "modules" },
-    { id: 7, label: "Feedback Skills", type: "module", target: "modules" },
-    { id: 8, label: "Adaptability", type: "module", target: "modules" },
-    { id: 9, label: "Problem Solving", type: "module", target: "modules" },
-    { id: 10, label: "Solution Orientation", type: "module", target: "modules" },
-    { id: 11, label: "Team Quiz", type: "quiz", target: "quiz" },
-    { id: 12, label: "Final Reflection", type: "reflection", target: "reflection" },
-    { id: 13, label: "Finish!", type: "finish" }
+    { id: 1, label: "Understanding You & Others", type: "module", target: "modules" },
+    { id: 2, label: "Trusted Relationships", type: "module", target: "modules" },
+    { id: 3, label: "Team Culture Creator", type: "module", target: "modules" },
+    { id: 4, label: "Strategic Mindset", type: "module", target: "modules" },
+    { id: 5, label: "Team Quiz", type: "quiz", target: "quiz" },
+    { id: 6, label: "Final Reflection", type: "reflection", target: "reflection" },
+    { id: 7, label: "Finish!", type: "finish" }
   ];
 
   // Define ladders (shortcuts upward)
   const ladders = [
-    { from: 2, to: 4, label: "Emotional intelligence bonus!" },
-    { from: 7, to: 9, label: "Collaborative skills boost!" }
+    { from: 1, to: 3, label: "Emotional intelligence bonus!" }
   ];
 
   // Define snakes (setbacks)
   const snakes = [
-    { from: 5, to: 3, label: "Communication breakdown!" },
-    { from: 10, to: 8, label: "Problem-solving challenge!" }
+    { from: 4, to: 2, label: "Strategy implementation challenge!" }
   ];
 
   // Function to handle space click
@@ -75,19 +67,19 @@ const ProgressTracker: React.FC = () => {
       baseStyle += isDone 
         ? "bg-primary/20 border-2 border-primary text-primary cursor-pointer hover:shadow-md " 
         : "bg-gray-100 border-2 border-gray-300 text-gray-500 cursor-pointer hover:bg-gray-200 ";
-      // Add emoji based on module number
-      const moduleEmoji = ["🔍", "👥", "🤝", "🔒", "🛡️", "🧩", "💬", "💪", "🧠", "⚡"];
+      // Add emoji based on module number - updated for 4 modules
+      const moduleEmoji = ["🔍", "🤝", "🧩", "🧠"];
       space.emoji = moduleEmoji[space.id - 1] || "📋";
     } else if (space.type === "quiz") {
       baseStyle += isDone 
         ? "bg-purple-100 border-2 border-purple-400 text-purple-800 cursor-pointer hover:shadow-md " 
         : "bg-gray-100 border-2 border-gray-300 text-gray-500 cursor-pointer hover:bg-gray-200 ";
-      space.emoji = "🧠";
+      space.emoji = "📊";
     } else if (space.type === "reflection") {
       baseStyle += isDone 
         ? "bg-orange-100 border-2 border-orange-400 text-orange-800 cursor-pointer hover:shadow-md " 
         : "bg-gray-100 border-2 border-gray-300 text-gray-500 cursor-pointer hover:bg-gray-200 ";
-      space.emoji = "🔍";
+      space.emoji = "🔎";
     }
 
     // Add shadow and transform for active state
@@ -102,7 +94,7 @@ const ProgressTracker: React.FC = () => {
         onClick={() => handleSpaceClick(space)}
       >
         <div className="flex flex-col items-center justify-center p-2 text-center">
-          {space.id > 0 && space.id <= 10 && (
+          {space.emoji && (
             <span className="text-lg mb-1">{space.emoji}</span>
           )}
           <span className="font-medium text-sm md:text-base">{space.label}</span>
@@ -273,21 +265,11 @@ const ProgressTracker: React.FC = () => {
             </div>
           </div>
           
-          {/* Game board - Split into two rows */}
+          {/* Game board - One row for all our spaces */}
           <div className="flex flex-col gap-6 mb-6 p-4 bg-white rounded-xl shadow-md">
-            {/* Start and First Row of Modules (1-5) */}
-            <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
-              {boardSpaces.slice(0, 6).map(space => renderSpace(space))}
-            </div>
-            
-            {/* Second Row of Modules (6-10) */}
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-              {boardSpaces.slice(6, 11).map(space => renderSpace(space))}
-            </div>
-            
-            {/* Quiz, Reflection and Finish */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {boardSpaces.slice(11, 14).map(space => renderSpace(space))}
+            {/* All spaces in a single row */}
+            <div className="grid grid-cols-1 md:grid-cols-8 gap-4">
+              {boardSpaces.map(space => renderSpace(space))}
             </div>
           </div>
 
@@ -349,9 +331,9 @@ const ProgressTracker: React.FC = () => {
           <div className="text-center mt-8">
             <Button 
               onClick={() => scrollToSection(playerPosition < 1 ? "modules" : 
-                                            playerPosition < 11 ? "modules" :
-                                            playerPosition < 12 ? "quiz" :
-                                            playerPosition < 13 ? "reflection" : "modules")}
+                                            playerPosition < 5 ? "modules" :
+                                            playerPosition < 6 ? "quiz" :
+                                            playerPosition < 7 ? "reflection" : "modules")}
               variant="default"
               className="bg-primary hover:bg-primary/90 text-white shadow-lg px-6 py-2 rounded-full"
             >
