@@ -5,7 +5,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ChevronRight, CheckCircle, ChevronDown, ChevronUp, FileText, Video, Image, Headphones, FileIcon } from "lucide-react";
 
-
 const ModulesSection: React.FC = () => {
   const { modules, progress, completeModule } = useCourse();
   const [expandedModules, setExpandedModules] = useState<Record<number, boolean>>({});
@@ -170,7 +169,7 @@ const ModulesSection: React.FC = () => {
 
                       {/* Submodule Content */}
                       {selectedSubmoduleContent && isSubmoduleSelected && (
-                        <div>
+                        <div dangerouslySetInnerHTML={{ __html: selectedSubmoduleContent }}>
                           <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">{selectedSubmoduleTitle}</h4>
                           <p className="text-gray-700">{selectedSubmoduleContent}</p>
                         </div>
