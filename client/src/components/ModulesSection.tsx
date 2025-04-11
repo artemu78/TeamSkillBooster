@@ -58,6 +58,9 @@ const ModulesSection: React.FC = () => {
             const selectedSubmoduleContent = isSubmoduleSelected
               ? module.submodules[selectedSubmodule.submoduleIndex]?.content
               : null;
+            const selectedSubmoduleTitle = isSubmoduleSelected
+              ? module.submodules[selectedSubmodule.submoduleIndex]?.title
+              : null;
 
 
 
@@ -168,7 +171,7 @@ const ModulesSection: React.FC = () => {
                       {/* Submodule Content */}
                       {selectedSubmoduleContent && isSubmoduleSelected && (
                         <div>
-                          <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">Submodule Content</h4>
+                          <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">{selectedSubmoduleTitle}</h4>
                           <p className="text-gray-700">{selectedSubmoduleContent}</p>
                         </div>
                       )}
