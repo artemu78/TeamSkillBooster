@@ -179,7 +179,7 @@ const ModulesSection: React.FC = () => {
                     <div className="p-5 bg-white border-t border-gray-100 grid md:grid-cols-2 gap-6">
                       {/* Submodule List */}
                       <div>
-                        <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">
+                        <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3 ">
                           Submodules
                         </h4>
                         <div className="space-y-2">
@@ -191,7 +191,7 @@ const ModulesSection: React.FC = () => {
                                 selectedSubmodule?.submoduleIndex === index
                                   ? "bg-indigo-100 border-indigo-200"
                                   : ""
-                              }`}
+                              } `}
                               onClick={() =>
                                 handleSubmoduleClick(module.id, index)
                               }
@@ -212,19 +212,17 @@ const ModulesSection: React.FC = () => {
                       {/* Submodule Content */}
                       {selectedSubmoduleContent && isSubmoduleSelected && (
                         <div>
-                          <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">
+                          <h4 className="text-lg font-semibold text-gray-800 mb-2">
                             {selectedSubmoduleTitle}
                           </h4>
-                          <p
-                            className="text-gray-700"
-                            dangerouslySetInnerHTML={{
+                          <div dangerouslySetInnerHTML={{
                               __html: selectedSubmoduleContent
                                 ? selectedSubmoduleContent
                                 : "",
                             }}
                           />
                         </div>
-                      )}
+                      ) }
                     </div>
                   )}
                 </CardContent>
