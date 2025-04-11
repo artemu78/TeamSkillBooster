@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ChevronRight, CheckCircle, ChevronDown, ChevronUp, FileText, Video, Image, Headphones, FileIcon } from "lucide-react";
 
+
 const ModulesSection: React.FC = () => {
   const { modules, progress, completeModule } = useCourse();
   const [expandedModules, setExpandedModules] = useState<Record<number, boolean>>({});
@@ -28,21 +29,13 @@ const ModulesSection: React.FC = () => {
     "from-amber-50 to-yellow-50"
   ];
 
-  // Module icons - 4 emoji variations
   const moduleIcons = ["🔍", "🤝", "🧩", "🧠"];
 
-  // Get media icon based on media type
-  const getMediaIcon = (type: string) => {
-    switch (type) {
-      case 'image': return <Image className="h-4 w-4" />;
-      case 'video': return <Video className="h-4 w-4" />;
-      case 'audio': return <Headphones className="h-4 w-4" />;
-      case 'pdf': return <FileText className="h-4 w-4" />;
-      default: return <FileIcon className="h-4 w-4" />;
-    }
-  };
+  const [selectedSubmodule, setSelectedSubmodule] = useState<{ moduleId: number; submoduleIndex: number } | null>(null);
 
-  // No longer chunking modules for progress display since it was removed
+  const handleSubmoduleClick = (moduleId: number, submoduleIndex: number) => {
+    setSelectedSubmodule({ moduleId, submoduleIndex });
+  };
 
   return (
     <section id="modules" className="py-12 bg-white">
@@ -61,7 +54,13 @@ const ModulesSection: React.FC = () => {
             const isExpanded = expandedModules[module.id] || false;
             const icon = moduleIcons[index] || "📋";
             const gradientColor = moduleColors[index] || "from-gray-50 to-gray-100";
-            
+            const isSubmoduleSelected = selectedSubmodule?.moduleId === module.id;
+            const selectedSubmoduleContent = isSubmoduleSelected
+              ? module.submodules[selectedSubmodule.submoduleIndex]?.content
+              : null;
+
+
+
             return (
               <Card
                 key={module.id}
@@ -140,82 +139,39 @@ const ModulesSection: React.FC = () => {
                   
                   {/* Module Content - Visible when expanded */}
                   {isExpanded && (
-                    <div className="p-5 bg-white border-t border-gray-100">
-                      <div className="grid md:grid-cols-[2fr_1fr] gap-6">
-                        {/* Left column: Module Text Content */}
-                        <div>
-                          <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">Module Content</h4>
-                          <div className="space-y-3">
-                            {module.content.text.map((paragraph, idx) => (
-                              <p key={`text-${idx}`} className="text-gray-700 text-sm">
-                                {paragraph}
-                              </p>
-                            ))}
-                          </div>
-                          
-                          {/* Interactive Element */}
-                          <div className="mt-6">
-                            <div className="bg-gray-50 rounded-lg p-4 border border-gray-100 shadow-sm hover:animate-[subtlePulse_2s_ease_infinite] transition-all">
-                              <div className="flex justify-between items-start">
-                                <div className="flex-1">
-                                  <h4 className="font-medium text-gray-700 mb-1 flex items-center">
-                                    <span className="w-5 h-5 inline-flex items-center justify-center bg-primary/10 text-primary rounded-full mr-2 text-xs animate-[float_3s_ease-in-out_infinite]">
-                                      <ChevronRight className="h-3 w-3" />
-                                    </span>
-                                    {module.interactiveElement.title}
-                                  </h4>
-                                  <p className="text-sm text-gray-500 pl-7">
-                                    {module.interactiveElement.description}
-                                  </p>
-                                </div>
-                                
-                                <button className="text-sm px-3 py-1.5 bg-primary/10 text-primary rounded-full hover:bg-primary/20 transition-all hover:shadow-md transform hover:-translate-y-0.5 whitespace-nowrap ml-3">
-                                  Start Activity
-                                </button>
+                    <div className="p-5 bg-white border-t border-gray-100 grid md:grid-cols-2 gap-6">
+                      {/* Submodule List */}
+                      <div>
+                        <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">Submodules</h4>
+                        <div className="space-y-2">
+                          {module.submodules.map((submodule, index) => (
+                            <div
+                              key={index}
+                              className={`p-3 bg-gray-50 rounded-lg border border-gray-100 flex items-center gap-3 hover:bg-gray-100 transition-colors cursor-pointer ${
+                                selectedSubmodule?.moduleId === module.id && selectedSubmodule?.submoduleIndex === index
+                                  ? "bg-indigo-100 border-indigo-200"
+                                  : ""
+                              }`}
+                              onClick={() => handleSubmoduleClick(module.id, index)}
+                            >
+                              <div className="w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center">
+                                <FileIcon className="h-4 w-4" />
+                              </div>
+                              <div className="flex-1">
+                                <p className="text-sm font-medium text-gray-700">{submodule.title}</p>
                               </div>
                             </div>
-                          </div>
+                          ))}
                         </div>
-                        
-                        {/* Right column: Media Files */}
+                      </div>
+
+                      {/* Submodule Content */}
+                      {selectedSubmoduleContent && isSubmoduleSelected && (
                         <div>
-                          <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">Module Resources</h4>
-                          <div className="space-y-2">
-                            {module.content.media.map((media, midx) => (
-                              <div 
-                                key={`media-${midx}`} 
-                                className="p-3 bg-gray-50 rounded-lg border border-gray-100 flex items-center gap-3 hover:bg-gray-100 transition-colors cursor-pointer"
-                              >
-                                <div className="w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center">
-                                  {getMediaIcon(media.type)}
-                                </div>
-                                <div className="flex-1">
-                                  <p className="text-sm font-medium text-gray-700">
-                                    {media.title || media.alt || `${media.type.charAt(0).toUpperCase() + media.type.slice(1)} ${midx + 1}`}
-                                  </p>
-                                  <p className="text-xs text-gray-500">{media.type.toUpperCase()}</p>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
+                          <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">Submodule Content</h4>
+                          <p className="text-gray-700">{selectedSubmoduleContent}</p>
                         </div>
-                      </div>
-                      
-                      {/* Module Completion Button */}
-                      <div className="mt-6 flex justify-end">
-                        <Button
-                          variant={isCompleted ? "outline" : "default"}
-                          className={`${
-                            isCompleted 
-                              ? "border-green-200 text-green-700 hover:bg-green-50" 
-                              : "bg-primary text-white hover:bg-primary/90"
-                          }`}
-                          onClick={() => handleCompleteModule(module.id)}
-                          disabled={isCompleted}
-                        >
-                          {isCompleted ? "Module Completed" : "Mark Module Complete"}
-                        </Button>
-                      </div>
+                      )}
                     </div>
                   )}
                 </CardContent>
