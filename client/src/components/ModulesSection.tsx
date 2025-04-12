@@ -64,6 +64,8 @@ const ModulesSection: React.FC = () => {
         const allSubmodulesCompleted = module.submodules.every(
           (sub) => sub.completed
         );
+        const subModuleId = Number(`${moduleId}.${submoduleIndex + 1}`);
+        completeModule(subModuleId);
         if (allSubmodulesCompleted) {
           handleCompleteModule(moduleId);
         }
@@ -204,41 +206,47 @@ const ModulesSection: React.FC = () => {
                           Submodules
                         </h4>
                         <div className="space-y-2">
-                          {module.submodules.map((submodule, index) => (
-                            <div
-                              key={index}
-                              className={`flex-col p-3 bg-gray-50 rounded-lg border border-gray-100 flex gap-3 hover:bg-gray-100 transition-colors cursor-pointer ${
-                                selectedSubmodule?.moduleId === module.id &&
-                                selectedSubmodule?.submoduleIndex === index
-                                  ? "bg-indigo-100 border-indigo-200"
-                                  : ""
-                              } `}
-                              onClick={() =>
-                                handleSubmoduleClick(module.id, index)
-                              }
-                            >
-                              <div className="gap-3 flex flex-1">
-                                {submodule.completed && (
-                                  <CheckCircle className="h-7 w-7 text-green-500" />
+                          {module.submodules.map((submodule, index) => {
+                            const isSubmoduleCompleted =
+                              progress.modules[
+                                Number(`${module.id}.${index + 1}`)
+                              ];
+                            return (
+                              <div
+                                key={index}
+                                className={`flex-col p-3 bg-gray-50 rounded-lg border border-gray-100 flex gap-3 hover:bg-gray-100 transition-colors cursor-pointer ${
+                                  selectedSubmodule?.moduleId === module.id &&
+                                  selectedSubmodule?.submoduleIndex === index
+                                    ? "bg-indigo-100 border-indigo-200"
+                                    : ""
+                                } `}
+                                onClick={() =>
+                                  handleSubmoduleClick(module.id, index)
+                                }
+                              >
+                                <div className="gap-3 flex flex-1">
+                                  {isSubmoduleCompleted && (
+                                    <CheckCircle className="h-7 w-7 text-green-500" />
+                                  )}
+                                  <p className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                                    {submodule.title}
+                                  </p>
+                                </div>
+                                {!isSubmoduleCompleted && (
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    className="ml-2"
+                                    onClick={() =>
+                                      handleCompleteSubmodule(module.id, index)
+                                    }
+                                  >
+                                    Complete
+                                  </Button>
                                 )}
-                                <p className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                                  {submodule.title}
-                                </p>
                               </div>
-                              {!submodule.completed && (
-                                <Button
-                                  variant="outline"
-                                  size="sm"
-                                  className="ml-2"
-                                  onClick={() =>
-                                    handleCompleteSubmodule(module.id, index)
-                                  }
-                                >
-                                  Complete
-                                </Button>
-                              )}
-                            </div>
-                          ))}
+                            );
+                          })}
                         </div>
                       </div>
 

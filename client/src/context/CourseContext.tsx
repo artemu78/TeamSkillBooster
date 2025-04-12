@@ -47,7 +47,25 @@ export const CourseProvider: React.FC<{ children: React.ReactNode }> = ({
       return saved
         ? JSON.parse(saved)
         : {
-            modules: { 1: false, 2: false, 3: false, 4: false },
+            modules: {
+              1: false,
+              2: false,
+              3: false,
+              4: false,
+              5: false,
+              6: false,
+              1.1: false,
+              2.1: false,
+              2.2: false,
+              3.1: false,
+              3.2: false,
+              3.3: false,
+              4.1: false,
+              4.2: false,
+              5.1: false,
+              6.1: false,
+              6.2: false,
+            },
             quiz: false,
             reflection: false,
           };
