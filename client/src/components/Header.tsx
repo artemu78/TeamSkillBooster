@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useCourse } from "@/context/CourseContext";
 import { Menu, Trophy, ChevronDown, ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 
 const Header: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -160,11 +161,20 @@ const Header: React.FC = () => {
                   Your Quest Progress
                 </h3>
               </div>
-              <div className="text-xs bg-gradient-to-r from-blue-50 to-purple-50 border border-purple-100 rounded-full px-3 py-1.5 shadow-sm">
+              <div className="flex justify-center items-center space-x-2 mb-3">
+                <span className="text-sm font-medium">Your progress:</span>
+                <div className="w-48 bg-white/30 rounded-full overflow-hidden">
+                  <Progress value={progressPercentage} className="h-2" />
+                </div>
+                <span className="text-sm font-medium">
+                  {progressPercentage}%
+                </span>
+              </div>
+              {/* <div className="text-xs bg-gradient-to-r from-blue-50 to-purple-50 border border-purple-100 rounded-full px-3 py-1.5 shadow-sm">
                 <span className="font-medium">{progressPercentage}%</span>{" "}
                 Complete
                 {progressPercentage === 100 && " 🎉"}
-              </div>
+              </div> */}
             </div>
 
             {/* Interactive game path */}

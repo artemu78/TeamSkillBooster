@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 
 const ModulesSection: React.FC = () => {
-  const { modules, progress, completeModule } = useCourse();
+  const { scrollToSection, modules, progress, completeModule } = useCourse();
   const [expandedModules, setExpandedModules] = useState<
     Record<number, boolean>
   >({});
@@ -69,6 +69,8 @@ const ModulesSection: React.FC = () => {
         if (allSubmodulesCompleted) {
           handleCompleteModule(moduleId);
         }
+        setSelectedSubmodule(null);
+        scrollToSection("module" + moduleId.toString());
       }
     }
   };
@@ -88,7 +90,7 @@ const ModulesSection: React.FC = () => {
         {/* Modules as collapsible rows */}
         <div className="flex flex-col gap-4 max-w-4xl mx-auto">
           {modules.map((module, index) => {
-            const isCompleted = progress.modules[module.id];
+            const isModuleCompleted = progress.modules[module.id];
             const isExpanded = expandedModules[module.id] || false;
             const icon = moduleIcons[index] || "📋";
             const gradientColor =
@@ -101,13 +103,17 @@ const ModulesSection: React.FC = () => {
             const selectedSubmoduleTitle = isSubmoduleSelected
               ? module.submodules[selectedSubmodule.submoduleIndex]?.title
               : null;
-
+            const isSelectedSubmoduleCompleted =
+              isSubmoduleSelected &&
+              progress.modules[
+                Number(`${module.id}.${selectedSubmodule?.submoduleIndex + 1}`)
+              ];
             return (
               <Card
                 key={module.id}
                 id={`module${module.id}`}
                 className={`overflow-hidden border transition-all hover:shadow-md ${
-                  isCompleted ? "border-green-200" : "border-gray-200"
+                  isModuleCompleted ? "border-green-200" : "border-gray-200"
                 } animate-[slideIn_0.5s_ease_forwards] opacity-0`}
                 style={{
                   animationDelay: `${index * 100}ms`,
@@ -132,20 +138,17 @@ const ModulesSection: React.FC = () => {
                             <div
                               className={`w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center
                               ${
-                                isCompleted
+                                isModuleCompleted
                                   ? "bg-green-100 text-green-800"
                                   : "bg-white text-gray-800"
                               }
                               shadow-sm border ${
-                                isCompleted
+                                isModuleCompleted
                                   ? "border-green-200"
                                   : "border-gray-200"
                               }`}
                             >
                               <span className="text-lg md:text-xl">{icon}</span>
-                            </div>
-                            <div className="absolute -top-1 -right-1 bg-indigo-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">
-                              {module.id}
                             </div>
                           </div>
                         </div>
@@ -156,7 +159,7 @@ const ModulesSection: React.FC = () => {
                               {module.title}
                             </h3>
 
-                            {isCompleted && (
+                            {isModuleCompleted && (
                               <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0" />
                             )}
                           </div>
@@ -169,14 +172,14 @@ const ModulesSection: React.FC = () => {
                       {/* Expand/Collapse & Status */}
                       <div className="flex items-center gap-3">
                         <Badge
-                          variant={isCompleted ? "outline" : "secondary"}
+                          variant={isModuleCompleted ? "outline" : "secondary"}
                           className={`hidden md:flex ${
-                            isCompleted
+                            isModuleCompleted
                               ? "text-green-600 bg-green-50 border-green-200"
                               : "text-blue-600 bg-blue-50 border-blue-200"
                           }`}
                         >
-                          {isCompleted ? "Completed" : "In Progress"}
+                          {isModuleCompleted ? "Completed" : "In Progress"}
                         </Badge>
 
                         <Button
@@ -199,13 +202,13 @@ const ModulesSection: React.FC = () => {
 
                   {/* Module Content - Visible when expanded */}
                   {isExpanded && (
-                    <div className="p-5 bg-white border-t border-gray-100 grid md:grid-cols-[33%_67%] gap-6">
+                    <div className="p-5 bg-white border-t border-gray-100 ">
                       {/* Submodule List */}
                       <div>
                         <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3 ">
                           Submodules
                         </h4>
-                        <div className="space-y-2">
+                        <div className="flex border-b border-b-gray-300 box-border">
                           {module.submodules.map((submodule, index) => {
                             const isSubmoduleCompleted =
                               progress.modules[
@@ -214,36 +217,30 @@ const ModulesSection: React.FC = () => {
                             return (
                               <div
                                 key={index}
-                                className={`flex-col p-3 bg-gray-50 rounded-lg border border-gray-100 flex gap-3 hover:bg-gray-100 transition-colors cursor-pointer ${
+                                className={`-mb-px flex-col p-3 rounded-t-lg border border-gray-300 border-b-gray-200 flex gap-3 hover:bg-gray-100 transition-colors cursor-pointer ${
                                   selectedSubmodule?.moduleId === module.id &&
                                   selectedSubmodule?.submoduleIndex === index
-                                    ? "bg-indigo-100 border-indigo-200"
-                                    : ""
+                                    ? "bg-transparent border-indigo-200 border-b-white"
+                                    : "border-b-2 border-b-gray-300 bg-gray-100"
                                 } `}
                                 onClick={() =>
                                   handleSubmoduleClick(module.id, index)
                                 }
+                                role="button"
+                                aria-label={`Submodule ${index + 1} ${
+                                  isSubmoduleCompleted
+                                    ? "completed"
+                                    : "not completed"
+                                }`}
                               >
                                 <div className="gap-3 flex flex-1">
                                   {isSubmoduleCompleted && (
-                                    <CheckCircle className="h-7 w-7 text-green-500" />
+                                    <CheckCircle className="h-6 w-6 text-green-500" />
                                   )}
                                   <p className="text-sm font-medium text-gray-700 flex items-center gap-2">
                                     {submodule.title}
                                   </p>
                                 </div>
-                                {!isSubmoduleCompleted && (
-                                  <Button
-                                    variant="outline"
-                                    size="sm"
-                                    className="ml-2"
-                                    onClick={() =>
-                                      handleCompleteSubmodule(module.id, index)
-                                    }
-                                  >
-                                    Complete
-                                  </Button>
-                                )}
                               </div>
                             );
                           })}
@@ -252,17 +249,32 @@ const ModulesSection: React.FC = () => {
 
                       {/* Submodule Content */}
                       {selectedSubmoduleContent && isSubmoduleSelected && (
-                        <div>
+                        <div className="mt-5">
                           <h4 className="text-lg font-semibold text-gray-800 mb-2">
                             {selectedSubmoduleTitle}
                           </h4>
                           <div
+                            className="leading-[1.5] text-gray-700"
                             dangerouslySetInnerHTML={{
                               __html: selectedSubmoduleContent
                                 ? selectedSubmoduleContent
                                 : "",
                             }}
                           />
+                          {!isSelectedSubmoduleCompleted && (
+                            <Button
+                              variant="outline"
+                              className="my-3 w-full"
+                              onClick={() =>
+                                handleCompleteSubmodule(
+                                  module.id,
+                                  selectedSubmodule.submoduleIndex
+                                )
+                              }
+                            >
+                              Complete
+                            </Button>
+                          )}
                         </div>
                       )}
                     </div>
