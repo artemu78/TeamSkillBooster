@@ -40,8 +40,6 @@ const ModulesSection: React.FC = () => {
     "from-amber-50 to-yellow-50",
   ];
 
-  const moduleIcons = ["🔍", "🤝", "🧩", "🧠"];
-
   const [selectedSubmodule, setSelectedSubmodule] = useState<{
     moduleId: number;
     submoduleIndex: number;
@@ -92,7 +90,7 @@ const ModulesSection: React.FC = () => {
           {modules.map((module, index) => {
             const isModuleCompleted = progress.modules[module.id];
             const isExpanded = expandedModules[module.id] || false;
-            const icon = moduleIcons[index] || "📋";
+            const icon = module.icon || "📋";
             const gradientColor =
               moduleColors[index] || "from-gray-50 to-gray-100";
             const isSubmoduleSelected =
@@ -163,9 +161,10 @@ const ModulesSection: React.FC = () => {
                               <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0" />
                             )}
                           </div>
-                          <p className="text-gray-600 text-xs md:text-sm line-clamp-2">
-                            {module.summary}
-                          </p>
+                          <p
+                            className="text-gray-600 text-xs md:text-sm line-clamp-2"
+                            dangerouslySetInnerHTML={{ __html: module.summary }}
+                          />
                         </div>
                       </div>
 

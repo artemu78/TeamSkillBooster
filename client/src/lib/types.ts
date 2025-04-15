@@ -1,5 +1,6 @@
 export interface Module {
   id: number;
+  icon: string;
   title: string;
   summary: string;
   submodules: Array<{
