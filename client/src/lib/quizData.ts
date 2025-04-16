@@ -2,106 +2,105 @@ import { QuizQuestion, StyleResult } from "./types";
 
 export const quizQuestions: QuizQuestion[] = [
   {
-    id: 1,
-    text: "In team projects, I am most energized by:",
-    options: [
+    question:
+      'Which of the following is a key aspect of showing \\"LOVE\\" to your teammates?',
+    answers: [
       {
-        value: "goal-driven",
-        label: "Achieving targets and measuring success",
-        description: "I love setting goals and tracking our progress",
+        text: "Leading with authority",
+        correct: false,
       },
       {
-        value: "task-driven",
-        label: "Creating systems and solving problems",
-        description: "I enjoy bringing order and finding efficient solutions",
+        text: "Offering unsolicited advice",
+        correct: false,
       },
       {
-        value: "vision-driven",
-        label: "Exploring new ideas and innovations",
-        description: "I thrive on creativity and considering possibilities",
+        text: "Leaning in and listening intently",
+        correct: true,
       },
       {
-        value: "people-driven",
-        label: "Building relationships and team harmony",
-        description: "I focus on how people work together and feel",
-      },
-    ],
-  },
-  {
-    id: 2,
-    text: "When conflict arises in a team, my natural approach is to:",
-    options: [
-      {
-        value: "goal-driven",
-        label: "Focus on what we need to achieve",
-        description: "Let's remember our objectives and stay on track",
+        text: "Overlooking mistakes",
+        correct: false,
       },
       {
-        value: "task-driven",
-        label: "Analyze the facts objectively",
-        description: "Let's break down the problem logically and find a solution",
-      },
-      {
-        value: "vision-driven",
-        label: "Look for creative compromises",
-        description: "Let's explore alternatives that might satisfy everyone",
-      },
-      {
-        value: "people-driven",
-        label: "Ensure everyone feels heard",
-        description: "Let's understand each person's perspective and feelings",
+        text: "Loudly expressing your opinions",
+        correct: false,
       },
     ],
   },
   {
-    id: 3,
-    text: "When contributing to team decisions, I typically:",
-    options: [
+    question:
+      'What is the benefit of using \\"I-statements\\" when communicating assertively?',
+    answers: [
       {
-        value: "goal-driven",
-        label: "Emphasize results and outcomes",
-        description: "I focus on what will help us achieve our goals fastest",
+        text: "They place blame on the other person.",
+        correct: false,
       },
       {
-        value: "task-driven",
-        label: "Consider processes and practicality",
-        description: "I think about how we'll implement decisions effectively",
+        text: "They escalate the conflict.",
+        correct: false,
       },
       {
-        value: "vision-driven",
-        label: "Bring up new perspectives",
-        description: "I enjoy challenging assumptions and suggesting new approaches",
+        text: "They focus on your own feelings and perspective.",
+        correct: true,
       },
       {
-        value: "people-driven",
-        label: "Consider how decisions affect people",
-        description: "I'm concerned with how team members will respond",
+        text: "They avoid direct communication.",
+        correct: false,
+      },
+      {
+        text: "They assert dominance in the conversation",
+        correct: false,
       },
     ],
   },
   {
-    id: 4,
-    text: "My biggest strength as a team member is:",
-    options: [
+    question: "According to Marcus Buckingham, what is a true strength?",
+    answers: [
       {
-        value: "goal-driven",
-        label: "Keeping the team focused and accountable",
-        description: "I help drive the team toward completion and success",
+        text: "Something you are simply good at.",
+        correct: false,
       },
       {
-        value: "task-driven",
-        label: "Creating structure and organization",
-        description: "I help ensure work gets done thoroughly and properly",
+        text: "An activity that energizes you.",
+        correct: true,
       },
       {
-        value: "vision-driven",
-        label: "Generating ideas and possibilities",
-        description: "I help the team think outside the box and innovate",
+        text: "A skill you have developed over time.",
+        correct: false,
       },
       {
-        value: "people-driven",
-        label: "Supporting team cohesion and morale",
-        description: "I help create a positive environment where everyone contributes",
+        text: "A task that others praise you for.",
+        correct: false,
+      },
+      {
+        text: "Your greatest skill",
+        correct: false,
+      },
+    ],
+  },
+  {
+    question:
+      "What does the text suggest as a way to reframe a problem to find a solution?",
+    answers: [
+      {
+        text: "Ignoring the problem.",
+        correct: false,
+      },
+      {
+        text: "Focusing on blame.",
+        correct: false,
+      },
+      {
+        text: "Seeing the problem as an opportunity.",
+        correct: true,
+      },
+      {
+        text: "Avoiding discussion.",
+        correct: false,
+      },
+      {
+        text: "Delegating the problem",
+        correct: false,
       },
     ],
   },

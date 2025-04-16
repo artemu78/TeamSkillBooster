@@ -15,12 +15,10 @@ export interface Module {
 }
 
 export interface QuizQuestion {
-  id: number;
-  text: string;
-  options: {
-    value: string;
-    label: string;
-    description: string;
+  question: string;
+  answers: {
+    text: string;
+    correct: boolean;
   }[];
 }
 
